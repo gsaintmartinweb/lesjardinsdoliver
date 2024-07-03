@@ -1,95 +1,52 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import axios from 'axios';
-import nodemailer from 'nodemailer';
+import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
+import EmailTemplate from "../../components/email";
 
-type Data = {
-  status?: string;
-  error?: string;
-};
+const resend = new Resend(process.env.RESEND_API_KEY!);
 
-const getAccessToken = async () => {
+export async function POST(req: NextRequest) {
   try {
-    const { data } = await axios.post('https://oauth2.googleapis.com/token', null, {
-      params: {
-        client_id: process.env.EMAIL_CLIENT_ID,
-        client_secret: process.env.EMAIL_CLIENT_SECRET,
-        refresh_token: process.env.EMAIL_REFRESH_TOKEN,
-        grant_type: 'refresh_token',
-      },
+
+    const request = await req.json(); // Parse the request body as JSON
+
+    console.log("Request body:", request);
+   
+
+    // Destructure and validate the required fields
+    const { name, email, message } = request as {
+      name: string;
+      email: string;
+      message: string;
+    };
+
+    if (!name || !email || !message) {
+      throw new Error("Invalid request body"); // Handle invalid request body
+    }
+
+    await resend.emails.send({
+      from: "gsaintmartin66@gmail.com",
+      to: "gsaintmartin66@gmail.com",
+      subject: "New Contact Form Submission",
+      text: `You have a new contact form submission:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
+      react: EmailTemplate({ name, email, message }),
     });
 
-    console.log('Access Token:', data.access_token); // Debug log
-    return data.access_token;
+    return NextResponse.json({ status: "OK" });
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Failed to get access token:', error.response?.data || error.message);
-    } else {
-      console.error('Failed to get access token:', error);
-    }
-    throw new Error('Failed to get access token');
+    console.error("Failed to send email:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
-};
+}
 
-const createTransporter = async () => {
-  try {
-    const accessToken = await getAccessToken();
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        type: 'OAuth2',
-        user: process.env.EMAIL_USER,
-        clientId: process.env.EMAIL_CLIENT_ID,
-        clientSecret: process.env.EMAIL_CLIENT_SECRET,
-        refreshToken: process.env.EMAIL_REFRESH_TOKEN,
-        accessToken,
-      },
-    });
-    return transporter;
-  } catch (error) {
-    console.error('Failed to create transporter:', error instanceof Error ? error.message : error);
-    throw new Error('Failed to create transporter');
-  }
-};
+// Optional: Export other methods if needed
+export async function GET(req: NextRequest) {
+  return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
+}
 
-export async function POST(req: NextApiRequest, res: NextApiResponse<Data>) {
-  if (req.method === 'POST') {
-    console.log('email user:', process.env.EMAIL_USER);
-    console.log('email client id:', process.env.EMAIL_CLIENT_ID);
-    console.log('email client secret:', process.env.EMAIL_CLIENT_SECRET);
-    console.log('email refresh token:', process.env.EMAIL_REFRESH_TOKEN);
-    try {
-      const { name, email, message } = req.body as { name: string; email: string; message: string };
-      const transporter = await createTransporter();
+export async function PUT(req: NextRequest) {
+  return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
+}
 
-      const mailOptions = {
-        from: process.env.EMAIL_USER!,
-        to: 'gsaintmartin@sfr.fr',
-        subject: 'New Contact Form Submission',
-        text: `You have a new contact form submission:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
-      };
-
-      console.log(mailOptions);
-
-      await transporter.sendMail(mailOptions);
-
-      res.status(200).json({ status: 'OK' });
-    } catch (error) {
-      console.error('Failed to send email:', error instanceof Error ? error.message : error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  } else {
-    res.status(405).json({ error: 'Method not allowed' });
-  }
-};
-
-export const GET = (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  res.status(405).json({ error: 'Method not allowed' });
-};
-
-export const PUT = (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  res.status(405).json({ error: 'Method not allowed' });
-};
-
-export const DELETE = (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  res.status(405).json({ error: 'Method not allowed' });
-};
+export async function DELETE(req: NextRequest) {
+  return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
+}
