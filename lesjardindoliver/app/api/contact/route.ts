@@ -24,10 +24,10 @@ export async function POST(req: NextRequest) {
     }
 
     await resend.emails.send({
-      from: "gsaintmartin66@gmail.com",
-      to: "gsaintmartin66@gmail.com",
-      subject: "New Contact Form Submission",
-      text: `You have a new contact form submission:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
+      from: 'Les jardins d\'Oliver <onboarding@resend.dev>',
+      to: "gsaintmartin66@gmail.com", // Replace with your email address
+      subject: "Nouvelle demande de contact",
+      text: `Vous avez une nouvelle demande de contact:\n\nNom: ${name}\nEmail: ${email}\nMessage: ${message}`,
       react: EmailTemplate({ name, email, message }),
     });
 

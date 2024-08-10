@@ -3,56 +3,62 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import Modal from './modal';
 
-interface Photo {
+export interface Creation {
   src: string;
+  title: string;
   description: string;
+  advice: string;
+  price: string;
   width: number;
   height: number;
 }
 
 interface PhotoGridProps {
-  photos: Photo[];
+  creations: Creation[];
 }
 
-const PhotoGrid: React.FC<PhotoGridProps> = ({ photos }) => {
-  const [selectedPhoto, setSelectedPhoto] = useState<{ src: string; description: string } | null>(null);
+const PhotoGrid: React.FC<PhotoGridProps> = ({ creations }) => {
+  const [selectedCreation, setSelectedCreation] = useState<{ src: string; description: string, advice: string, title: string } | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = (photo: { src: string; description: string }) => {
-    setSelectedPhoto(photo);
+  const openModal = (creation: { src: string; description: string, advice: string, title: string }) => {
+    setSelectedCreation(creation);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setSelectedPhoto(null);
+    setSelectedCreation(null);
     setIsModalOpen(false);
   };
 
   return (
-    <div>
+    <div className="space-y-4 bg-grey-100">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-        {photos.map((photo, index) => (
+        {creations.map((creation, index) => (
           <div key={index} className="overflow-hidden rounded-lg shadow-lg transition-transform transform hover:scale-105">
             <Image
-              src={photo.src}
-              alt={photo.description}
-              width={photo.width}
-              height={photo.height}
+              src={creation.src}
+              alt={creation.description}
+              width={creation.width}
+              height={creation.height}
               className="w-full h-auto object-cover"
             />
-            <div className="p-4 flex justify-between items-center">
-              <p className="text-sm text-gray-700 flex-grow">{photo.description}</p>
+            <div className="p-4 flex justify-between items-center bg-gray-900">
+              <p className="text-xl text-slate-300 flex-grow backdrop-blur-sm rounded-lg p-2">{creation.title.toUpperCase()}</p>
               <button
-                onClick={() => openModal(photo)}
-                className="bg-slate-500 text-white text-xs py-1 px-2 rounded hover:bg-slate-700 ml-2"
+                onClick={() => openModal(creation)}
+                className="bg-emerald-500 text-white text-sm py-2 px-4 rounded hover:bg-emerald-300 ml-2"
               >
                 Détail
               </button>
             </div>
+            <div className="absolute top-2 right-4 bg-white text-gray-800 text-sm py-1 px-2 rounded-full shadow-md">
+              {creation.price}
+            </div>
           </div>
         ))}
       </div>
-      <Modal isOpen={isModalOpen} onClose={closeModal} photo={selectedPhoto} />
+      <Modal isOpen={isModalOpen} onClose={closeModal} creation={selectedCreation} />
     </div>
   );
 };

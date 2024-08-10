@@ -15,10 +15,8 @@ const MinimalistButton: React.FC<MinimalistButtonProps> = ({ label, href, onClic
 
   if (href) {
     return (
-      <Link href={href}>
-        <a className={buttonClassNames} {...props}>
-          {label}
-        </a>
+      <Link href={href} className={buttonClassNames} {...props}>
+        {label}
       </Link>
     );
   }

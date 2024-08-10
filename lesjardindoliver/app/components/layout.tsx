@@ -53,9 +53,9 @@ function HomeLink() {
   );
 }
 
-function AboutLink() {
+function CreationsLink() {
   return (
-    <NavbarLink href="/about">
+    <NavbarLink href="/creations">
       {" "}
       <div className="flex items-center">Mes créations </div>
     </NavbarLink>
@@ -80,7 +80,7 @@ function Header() {
             <Logo />
             <Navbar >
               <HomeLink />
-              <AboutLink />
+              <CreationsLink />
               <ContactLink />
             </Navbar>
           </div>
@@ -93,7 +93,7 @@ function Header() {
 
 function Footer() {
   return (
-    <footer className="h-16 bg-basic-white w-full flex justify-center">
+    <footer className="h-16 bg-basic-white w-full flex justify-center border border-cyan-500">
       <div className="flex grow justify-start items-center max-w-[1440px] px-6">
         <a
           className=" text-sm font-semibold hover:underline  border-b-2 border-solid border-transparent"

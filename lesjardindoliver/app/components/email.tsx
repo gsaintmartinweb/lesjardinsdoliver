@@ -14,9 +14,9 @@ const EmailTemplate: React.FC<EmailTemplateProps> = ({ name, email, message }) =
       <Head />
       <Body>
         <Container>
-          <Heading>Hello,</Heading>
-          <Text>You have a new contact form submission:</Text>
-          <Text><strong>Name:</strong> {name}</Text>
+          <Heading>Bonjour Sylvie,</Heading>
+          <Text>Vous avez une nouvelle demande de contact depuis le site le jardin d Oliver:</Text>
+          <Text><strong>Nom:</strong> {name}</Text>
           <Text><strong>Email:</strong> {email}</Text>
           <Text><strong>Message:</strong> {message}</Text>
         </Container>
