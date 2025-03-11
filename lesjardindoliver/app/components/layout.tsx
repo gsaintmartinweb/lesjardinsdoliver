@@ -37,8 +37,8 @@ function Logo() {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         alt=""
-        className="h-[56px] -my-[8px] w-auto"
-        src={"/images/logo.jpeg"}
+        className="h-[60px] -my-[8px] w-auto"
+        src={"/images/logo_V3.jpeg"}
       />
     </div>
   );
@@ -49,6 +49,15 @@ function HomeLink() {
     <NavbarLink href="/">
       {" "}
       <div className="flex items-center">Accueil</div>
+    </NavbarLink>
+  );
+}
+
+function PlantesLink() {
+  return (
+    <NavbarLink href="/plantes">
+      {" "}
+      <div className="flex items-center">Plantes </div>
     </NavbarLink>
   );
 }
@@ -70,6 +79,14 @@ function ContactLink() {
     </NavbarLink>
   );
 }
+function UsersLink() {
+  return (
+    <NavbarLink href="/users">
+      {" "}
+      <div className="flex items-center">Utilisateurs </div>
+    </NavbarLink>
+  );
+}
 
 function Header() {
   return (
@@ -78,10 +95,13 @@ function Header() {
         <>
           <div className="mx-auto px-6 flex items-center grow">
             <Logo />
+            <div className="font-whisper ml-2 text-xl">Les Jardins d&apos;Oliver</div>
             <Navbar >
               <HomeLink />
+              <PlantesLink />
               <CreationsLink />
               <ContactLink />
+              <UsersLink />
             </Navbar>
           </div>
 
