@@ -54,7 +54,6 @@ const FileUpload = ({ onFileUpload }: FileUploadProps) => {
       const result = await res.json();
 
       if (res.ok) {
-        console.log(result);
         onFileUpload(result.s3Url);
         setFileUrl(result.s3Url);
         toast.success("File uploaded successfully");

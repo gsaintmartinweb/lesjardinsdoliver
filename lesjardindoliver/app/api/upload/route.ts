@@ -40,8 +40,6 @@ export async function POST(req: Request) {
     });
 
     const { fields, files } = await parseForm(nodeReq);
-    console.log("Parsed fields:", fields);
-    console.log("Parsed files:", files);
 
     const file = Array.isArray(files.file) ? files.file[0] : files.file;
     if (!file || !file.filepath) {

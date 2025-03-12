@@ -40,7 +40,6 @@ const PlantForm = ({ onClose, onPlantCreated }: { onClose: () => void, onPlantCr
 
   const handleFileUpload = (fileUrl: string) => {
     setValue("src", fileUrl);
-    console.log(fileUrl, watch("src"));
   };
 
   return (

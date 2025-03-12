@@ -35,7 +35,6 @@ export const authOptions: NextAuthOptions = {
   },
   events: {
     async signOut({ token }) {
-      console.log("Signing out from Keycloak");
       const logoutUrl = `${process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/logout?client_id=${process.env.KEYCLOAK_CLIENT_ID}&refresh_token=${token.refreshToken}`;
       try {
         await fetch(logoutUrl, { method: "POST" });

@@ -8,8 +8,6 @@ export async function POST(req: NextRequest) {
   try {
 
     const request = await req.json(); // Parse the request body as JSON
-
-    console.log("Request body:", request);
    
 
     // Destructure and validate the required fields

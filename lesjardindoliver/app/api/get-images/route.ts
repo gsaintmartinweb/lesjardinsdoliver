@@ -11,18 +11,17 @@ const s3 = new S3Client({
 });
 
 export async function GET() {
+
   try {
     const command = new ListObjectsV2Command({
       Bucket: process.env.AWS_S3_BUCKET_NAME!,
       Prefix: "", // Optional: Filter by folder or prefix
     });
 
-    console.log("command:", command);
 
     const { Contents } = await s3.send(command);
 
     if (!Contents) {
-      console.log("not contents:", Contents);
 
       return NextResponse.json({ images: [] });
     }
@@ -44,7 +43,6 @@ export async function GET() {
     // Filter out null values
     const validImageUrls = imageUrls.filter((url) => url !== null);
 
-    console.log("Valid image URLs:", validImageUrls);
 
     return NextResponse.json({ images: validImageUrls });
   } catch (error) {

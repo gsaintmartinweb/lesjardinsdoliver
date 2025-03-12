@@ -5,7 +5,7 @@ import axios from "axios";
 import { Plant } from "@prisma/client";
 import CreatePlantModal from "../components/create-plant-modal";
 import Link from "next/link";
-import { EyeOpenIcon, MinusCircledIcon, Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
+import { EyeOpenIcon, Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 
 const PlantesPage = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
@@ -56,7 +56,7 @@ const PlantesPage = () => {
                 <TableData className="sticky right-0 bg-white shadow-md">
                   <div className="flex items-center"> 
                   <Link
-                    href={`/plant/${plant.id}`}
+                    href={`/plantes/${plant.id}`}
                     className="flex items-center text-amber-700 hover:text-amber-900"
                   >
                     <EyeOpenIcon className="mr-2 h-5 w-5" />
