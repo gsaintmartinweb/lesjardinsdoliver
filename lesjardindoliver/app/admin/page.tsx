@@ -4,6 +4,7 @@ import LogoutButton from "../components/logout-button";
 import LoginButton from "../components/login-button";
 import Link from "next/link";
 import FormUpload from "../components/form-upload";
+import { ThickArrowLeftIcon } from "@radix-ui/react-icons";
 
 const AdminPage = async () => {
   const session = await getServerSession(authOptions);
@@ -31,26 +32,26 @@ const AdminPage = async () => {
       </h1>
       <p className="text-gray-700 text-lg font-medium mb-6 text-center">
         Connecté en tant que:{" "}
-        <span className="text-blue-600 font-semibold">{session.user?.name}</span>
+        <span className="text-blue-600 font-semibold">
+          {session.user?.name}
+        </span>
       </p>
 
       <div className="flex flex-col items-center gap-6">
         <LogoutButton />
         <Link
           href="/"
-          className="text-blue-600 text-sm font-medium underline hover:text-blue-800 transition"
+          className="text-blue-600 text-md font-medium underline hover:text-blue-800 transition items-center flex gap-2"
         >
-          Retourner à la page d&apos;accueil
+          <ThickArrowLeftIcon className="h-5 w-5"/> <span>Retourner à la page d&apos;accueil</span>
         </Link>
-        <Link 
+        <Link
           href="/admin/plantes"
-          className="text-blue-600 text-sm font-medium underline hover:text-blue-800 transition"
+          className="text-green-600 text-md font-medium underline hover:text-green-800 transition"
         >
-          Ajouter une plante
+          Gestion des plantes{" "}
         </Link>
       </div>
-
-      
     </div>
   );
 };

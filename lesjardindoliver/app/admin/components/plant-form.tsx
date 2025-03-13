@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { Plant } from "@prisma/client";
 import FormUpload from "../../components/form-upload";
+import { createPlant } from "@/app/actions/create-plant";
 
 const PlantForm = ({ onClose, onPlantCreated }: { onClose: () => void, onPlantCreated: () => void }) => {   
   const {
@@ -21,25 +21,39 @@ const PlantForm = ({ onClose, onPlantCreated }: { onClose: () => void, onPlantCr
     },
   });
 
-  const onSubmit = async (data: Plant) => {
-    try {
-      const response = await axios.post("/api/plants", {
-        src: data.src,
-        title: data.title,
-        description: data.description,
-        advice: data.advice,
-        price: data.price,
-      });
-      onPlantCreated();
-      reset();
-      onClose();
-    } catch (error) {
-      console.error("Error creating plant:", error);
-    }
+  const onSubmit = async (plant: Plant) => {
+    const response = await createPlant(plant);
+    onPlantCreated();
+    reset();
+    onClose();
+
+    console.log(response);
+    // try {
+    //   const response = await axios.post("/api/plants", {
+    //     src: data.src,
+    //     title: data.title,
+    //     description: data.description,
+    //     advice: data.advice,
+    //     price: data.price,
+    //   });
+    //   onPlantCreated();
+    //   reset();
+    //   onClose();
+    // } catch (error) {
+    //   console.error("Error creating plant:", error);
+    // }
   };
 
   const handleFileUpload = (fileUrl: string) => {
-    setValue("src", fileUrl);
+    console.log("File uploaded:", fileUrl);
+    
+    // Extract the filename from the URL
+    const fileName = fileUrl.split("/").pop();
+    
+    console.log("File name parsed:", fileName);
+    if (fileName) {
+      setValue("src", fileName); // Save only the filename
+    }
   };
 
   return (
